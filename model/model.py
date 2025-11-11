@@ -27,6 +27,10 @@ class Model:
         """
         # TODO
 
+        # ricavare tutti i consumi con get_consumi da impianto_DTO.py (vengono salvati prima)
+        # filtrarli per mese
+        # creare la lista e ritornarla
+
     def get_sequenza_ottima(self, mese:int):
         """
         Calcola la sequenza ottimale di interventi nei primi 7 giorni
@@ -54,4 +58,8 @@ class Model:
         :return: un dizionario: {id_impianto: [kwh_giorno1, ..., kwh_giorno7]}
         """
         # TODO
+
+        # ricavare da impianto_DTO.py tutti i consumi (vengono salvati prima)
+        # filtrarli secondo il mese e la prima settimana
+        # creare il dizionario e ritornarlo
 

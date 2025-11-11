@@ -18,6 +18,9 @@ class Impianto:
         """ Aggiorna e Restituisce la lista di consumi (self.lista_consumi) associati all'impianto"""
         # TODO
 
+        # tramite consumo_DAO.py ricavarsi la lista dei consumi,
+        # attribuirlo alla lista lista_consumi
+
     def __eq__(self, other):
         return isinstance(other, Impianto) and self.id == other.id
 
