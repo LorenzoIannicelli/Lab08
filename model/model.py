@@ -25,11 +25,19 @@ class Model:
         :param mese: Mese selezionato (un intero da 1 a 12)
         :return: lista di tuple --> (nome dell'impianto, media), es. (Impianto A, 123)
         """
-        # TODO
 
         # ricavare tutti i consumi con get_consumi da impianto_DTO.py (vengono salvati prima)
         # filtrarli per mese
         # creare la lista e ritornarla
+
+        list_consumi_impianti = []
+
+        for impianto in self._impianti:
+            info_consumi = impianto.get_consumi()
+            consumi = [int(consumo.kwh) for consumo in info_consumi]
+            list_consumi_impianti.append((impianto.nome, sum(consumi)/len(consumi)))
+
+        return list_consumi_impianti
 
     def get_sequenza_ottima(self, mese:int):
         """
@@ -52,14 +60,39 @@ class Model:
         """ Implementa la ricorsione """
         # TODO
 
+        if len(sequenza_parziale) == 7 and costo_corrente < self.__costo_ottimo:
+            self.__sequenza_ottima = sequenza_parziale
+            self.__costo_ottimo = costo_corrente
+            return
+
+        '''for impianto in consumi_settimana: 
+            for consumo in consumi_settimana[impianto]:
+                sequenza_parziale.append(impianto)
+                self.__ricorsione(sequenza_parziale, giorno+1, impianto, costo_corrente+consumo, consumi_settimana[impianto])'''
+
+        ## scorrere sui giorni
+
+
+
     def __get_consumi_prima_settimana_mese(self, mese: int):
         """
         Restituisce i consumi dei primi 7 giorni del mese selezionato per ciascun impianto.
         :return: un dizionario: {id_impianto: [kwh_giorno1, ..., kwh_giorno7]}
         """
-        # TODO
 
         # ricavare da impianto_DTO.py tutti i consumi (vengono salvati prima)
         # filtrarli secondo il mese e la prima settimana
         # creare il dizionario e ritornarlo
 
+        consumi_impianti_prima_settimana_mese = {}
+        for impianto in self._impianti:
+            consumi_interessati = []
+            info_consumi = impianto.get_consumi()
+
+            for consumo in info_consumi :
+                if consumo.data.month == mese and consumo.data.day in range(1,8) :
+                    consumi_interessati.append(consumo.kwh)
+
+            consumi_impianti_prima_settimana_mese[impianto.id] = consumi_interessati
+
+            return consumi_impianti_prima_settimana_mese
