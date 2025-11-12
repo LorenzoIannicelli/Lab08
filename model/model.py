@@ -58,9 +58,8 @@ class Model:
 
     def __ricorsione(self, sequenza_parziale, giorno, ultimo_impianto, costo_corrente, consumi_settimana):
         """ Implementa la ricorsione """
-        # TODO
 
-        if len(sequenza_parziale) == 7 and costo_corrente < self.__costo_ottimo:
+        if len(sequenza_parziale) == 7 and costo_corrente < self.__costo_ottimo :
             self.__sequenza_ottima = sequenza_parziale
             self.__costo_ottimo = costo_corrente
             return
@@ -71,6 +70,7 @@ class Model:
                 self.__ricorsione(sequenza_parziale, giorno+1, impianto, costo_corrente+consumo, consumi_settimana[impianto])'''
 
         ## scorrere sui giorni
+        # oppure scorrere per impianto e 'togliere' giorno dopo giorno
 
 
 
@@ -95,4 +95,4 @@ class Model:
 
             consumi_impianti_prima_settimana_mese[impianto.id] = consumi_interessati
 
-            return consumi_impianti_prima_settimana_mese
+        return consumi_impianti_prima_settimana_mese
