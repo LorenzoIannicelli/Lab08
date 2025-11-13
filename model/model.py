@@ -1,3 +1,5 @@
+import copy
+
 from database.impianto_DAO import ImpiantoDAO
 
 '''
@@ -59,19 +61,32 @@ class Model:
     def __ricorsione(self, sequenza_parziale, giorno, ultimo_impianto, costo_corrente, consumi_settimana):
         """ Implementa la ricorsione """
 
-        if len(sequenza_parziale) == 7 and costo_corrente < self.__costo_ottimo :
-            self.__sequenza_ottima = sequenza_parziale
-            self.__costo_ottimo = costo_corrente
+        if len(sequenza_parziale) == 7 :
+            if self.__costo_ottimo == -1 or  costo_corrente < self.__costo_ottimo :
+                self.__sequenza_ottima = copy.deepcopy(sequenza_parziale)
+                self.__costo_ottimo = costo_corrente
             return
 
-        '''for impianto in consumi_settimana: 
-            for consumo in consumi_settimana[impianto]:
-                sequenza_parziale.append(impianto)
-                self.__ricorsione(sequenza_parziale, giorno+1, impianto, costo_corrente+consumo, consumi_settimana[impianto])'''
-
         ## scorrere sui giorni
-        # oppure scorrere per impianto e 'togliere' giorno dopo giorno
+        # oppure scorrere per impianto e 'aggiungere' giorno dopo giorno
 
+        for impianto in consumi_settimana:
+            sequenza_parziale.append(impianto)
+
+            if impianto != ultimo_impianto:
+                costo_spostamento = 5
+            else:
+                costo_spostamento = 0
+
+            costo_aggiuntivo = consumi_settimana[impianto][giorno-1] + costo_spostamento
+            self.__ricorsione(sequenza_parziale,
+                              giorno + 1,
+                              impianto,
+                              costo_corrente + costo_aggiuntivo,
+                              consumi_settimana)
+
+            # BACK-TRACKING
+            sequenza_parziale.pop()
 
 
     def __get_consumi_prima_settimana_mese(self, mese: int):
